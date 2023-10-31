@@ -102,7 +102,32 @@ def joinFactors(factors: List[Factor]):
 
 
     "*** YOUR CODE HERE ***"
-    raiseNotDefined()
+    factor0=factors[0]
+    for factor1 in factors[1:]:
+        assign0=factor0.getAllPossibleAssignmentDicts()
+        assign1=factor1.getAllPossibleAssignmentDicts()
+        domain0=factor0.variableDomainsDict()
+        domain1=factor1.variableDomainsDict()
+        conVar0=factor0.conditionedVariables()
+        unconVar0=factor0.unconditionedVariables()
+        conVar1=factor1.conditionedVariables()
+        unconVar1=factor1.unconditionedVariables()
+        variableDomainDict={}
+        conVar=set([i for i in conVar0 if i not in unconVar1]+\
+                    [i for i in conVar1 if i not in unconVar0])
+        unconVar=set(unconVar0+unconVar1)
+        for i in conVar.union(unconVar):
+            if i in conVar0 or i in unconVar0:
+                variableDomainDict[i]=domain0[i]
+            else:
+                variableDomainDict[i]=domain1[i]
+        factor2=Factor(unconVar,conVar,variableDomainDict)
+        for i in assign0:
+            for j in assign1:
+                
+
+
+
     "*** END YOUR CODE HERE ***"
 
 ########### ########### ###########
