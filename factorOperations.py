@@ -102,10 +102,9 @@ def joinFactors(factors: List[Factor]):
 
 
     "*** YOUR CODE HERE ***"
+    factors=list(factors)
     factor0=factors[0]
     for factor1 in factors[1:]:
-        assign0=factor0.getAllPossibleAssignmentDicts()
-        assign1=factor1.getAllPossibleAssignmentDicts()
         domain0=factor0.variableDomainsDict()
         domain1=factor1.variableDomainsDict()
         conVar0=factor0.conditionedVariables()
@@ -115,19 +114,19 @@ def joinFactors(factors: List[Factor]):
         variableDomainDict={}
         conVar=set([i for i in conVar0 if i not in unconVar1]+\
                     [i for i in conVar1 if i not in unconVar0])
-        unconVar=set(unconVar0+unconVar1)
+        unconVar=set(unconVar0.union(unconVar1))
         for i in conVar.union(unconVar):
             if i in conVar0 or i in unconVar0:
                 variableDomainDict[i]=domain0[i]
             else:
                 variableDomainDict[i]=domain1[i]
         factor2=Factor(unconVar,conVar,variableDomainDict)
-        for i in assign0:
-            for j in assign1:
-                
-
-
-
+        print(factor2)
+        for i in factor2.getAllPossibleAssignmentDicts():
+            prob=factor0.getProbability(i)*factor1.getProbability(i)
+            factor2.setProbability(i, prob)
+        factor0=factor2
+    return factor0
     "*** END YOUR CODE HERE ***"
 
 ########### ########### ###########
