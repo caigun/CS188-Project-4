@@ -121,7 +121,6 @@ def joinFactors(factors: List[Factor]):
             else:
                 variableDomainDict[i]=domain1[i]
         factor2=Factor(unconVar,conVar,variableDomainDict)
-        print(factor2)
         for i in factor2.getAllPossibleAssignmentDicts():
             prob=factor0.getProbability(i)*factor1.getProbability(i)
             factor2.setProbability(i, prob)
@@ -177,7 +176,22 @@ def eliminateWithCallTracking(callTrackingList=None):
                     "unconditionedVariables: " + str(factor.unconditionedVariables()))
 
         "*** YOUR CODE HERE ***"
-        raiseNotDefined()
+        conVar=factor.conditionedVariables()
+        unconVar0=factor.unconditionedVariables()
+        eliminateDomain=factor.variableDomainsDict()[eliminationVariable]
+        unconVar=set([i for i in unconVar0 if i != eliminationVariable])
+        variableDomainDict={}
+        domain=factor.variableDomainsDict()
+        for i in conVar.union(unconVar):
+            variableDomainDict[i]=domain[i]
+        factorR=Factor(unconVar,conVar,variableDomainDict)
+        for i in factorR.getAllPossibleAssignmentDicts().copy():
+            prob=0
+            for j in eliminateDomain:
+                i[eliminationVariable]=j
+                prob+=factor.getProbability(i)
+            factorR.setProbability(i,prob)
+        return factorR
         "*** END YOUR CODE HERE ***"
 
     return eliminate
