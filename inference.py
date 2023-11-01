@@ -188,38 +188,21 @@ def inferenceByVariableEliminationWithCallTracking(callTrackingList=None):
             eliminationOrder = sorted(list(eliminationVariables))
 
         "*** YOUR CODE HERE ***"
-        # print(queryVariables,evidenceDict, eliminationOrder)
-        # print(bayesNet.getAllCPTsWithEvidence(evidenceDict))
         factors = bayesNet.getAllCPTsWithEvidence(evidenceDict)
-        # factor=joinFactors(factors)
         for eliVar in eliminationOrder:
-            # for factor in factors:
-            #     factorR=eliminate(factor,eliVar)
-            # print(factors,"factor 1")
-            # for factor in factors:
-            #     for i in factor:
-            #         if not i:
-            #             continue
-            #         factorR=eliminate(i,eliVar)
-            #     print(factorR,"factorR")
-
-            print(factors,"befor join")
             factors1=joinFactorsByVariable(factors, eliVar)
             factors=factors1[0]+[factors1[1]]
             eliFactors=[]
-            print(factors,"after join")
             for i in factors:
-                if eliVar in i:
-                    print(i)
+                if eliVar in i.unconditionedVariables() and len(i.unconditionedVariables()) !=1:
                     eliFactors.append(eliminate(i,eliVar))
+                elif eliVar in i.unconditionedVariables() and len(i.unconditionedVariables())==1:
+                    pass
+                else:
+                    eliFactors.append(i)
             factors=eliFactors
-            # eliFactors=[]
-            # for i in factors:
-            #     print(i)
-            #     eliFactors.append(eliminate(i,eliVar))
-            print(factors,"after elimination")
-        # print(factors)
-        factor=normalize(factors[0])
+        factor=joinFactors(factors)
+        factor=normalize(factor)
         return factor
 
         "*** END YOUR CODE HERE ***"
