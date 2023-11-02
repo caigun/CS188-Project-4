@@ -636,7 +636,8 @@ class ParticleFilter(InferenceModule):
         """
         self.particles = []
         "*** YOUR CODE HERE ***"
-        raiseNotDefined()
+        actions=gameState.
+        position=
         "*** END YOUR CODE HERE ***"
 
     def getBeliefDistribution(self):
