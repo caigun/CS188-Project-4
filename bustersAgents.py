@@ -150,10 +150,6 @@ class GreedyBustersAgent(BustersAgent):
              if livingGhosts[i+1]]
         "*** YOUR CODE HERE ***"
         actionsAndPositions=[(Actions.getSuccessor(pacmanPosition, action), action) for action in legal]
-        # ghostBeliefs=[]
-        # for ghostBelief in livingGhostPositionDistributions:
-        #     for p, belief in ghostBelief.items():
-        #         ghostBeliefs.append(p[belief.find(max(belief))])
         ghostBeliefs = []
         for ghostBelief in livingGhostPositionDistributions:
             maxBelief = max(ghostBelief.values())
